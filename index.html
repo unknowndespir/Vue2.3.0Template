@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>[DEMO] vue2.3.0</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+</head>
+
+<body>
+
+  <div id="app-sample">
+  </div>
+  <div id="app-sample2">
+  </div>
+
+  <div id="app">
+    {{ message }}
+  </div>
+
+  <div id="app-2">
+    <span v-bind:title="message">
+      Hover your mouse over me for a few seconds
+      to see my dynamically bound title!
+    </span>
+  </div>
+
+  <div id="app-3">
+    <p v-if="seen">Now you see me</p>
+  </div>
+
+  <div id="app-4">
+    <ol>
+      <li v-for="todo in todos">
+        {{ todo.text }}
+      </li>
+    </ol>
+  </div>
+
+  <div id="app-5">
+    <p>{{ message }}</p>
+    <button v-on:click="reverseMessage">Reverse Message</button>
+  </div>
+
+  <div id="app-6">
+    <p>{{ message }}</p>
+    <input v-model="message">
+  </div>
+
+  <div id="app-7">
+    <ol>
+      <!-- Now we provide each todo-item with the todo object    -->
+      <!-- it's representing, so that its content can be dynamic -->
+      <todo-item v-for="item in groceryList" :key="item.id" v-bind:todo="item"></todo-item>
+    </ol>
+  </div>
+
+  <div id="app-8">
+    <h1>Hello App!</h1>
+    <p>
+      <!-- ナビゲーションに router-link コンポーネントを使う -->
+      <!-- リンク先を `to` プロパティに指定します -->
+      <!-- デフォルトで <router-link> は `<a>` タグとしてレンダリングされます -->
+      <router-link to="/foo">Go to Foo</router-link>
+      <router-link to="/bar">Go to Bar</router-link>
+    </p>
+    <!-- ルートアウトレット -->
+    <!-- ルートとマッチしたコンポーネントがここへレンダリングされます -->
+    <router-view></router-view>
+  </div>
+
+  <script>
+    var app = new Vue({
+    el: '#app',
+      data: {
+        message: 'Hello Vue!'
+      }
+    })
+    var app2 = new Vue({
+      el: '#app-2',
+      data: {
+        message: 'You loaded this page on ' + new Date()
+      }
+    })
+    var app3 = new Vue({
+      el: '#app-3',
+      data: {
+        seen: false
+      }
+    })
+    var app4 = new Vue({
+      el: '#app-4',
+      data: {
+        todos: [
+          { text: 'Lean JavaScript'},
+          { text: 'Lean Vue' },
+          { text: 'Build something awesome'},
+        ]
+      }
+    })
+    var app5 = new Vue({
+      el: '#app-5',
+      data: {
+        message: 'Hello Vue.js!'
+      },
+      methods: {
+        reverseMessage: function() {
+          this.message = this.message.split('').reverse().join('')
+        }
+      }
+    })
+    var app6 = new Vue({
+      el: '#app-6',
+      data: {
+        message: 'Hello Vue.js!'
+      }
+    })
+    Vue.component('todo-item', {
+      props: ['todo'],
+      template: '<li>{{ todo.text }}</li>'
+    })
+    var app7 = new Vue({
+      el: '#app-7',
+      data: {
+        groceryList: [
+          { text: 'Vegetables' },
+          { text: 'Cheese' },
+          { text: 'Whatever else humans are supposed to eat' }
+        ]
+      },
+      created: function () {
+        // `this` points to the vm instance
+        console.log('hello log.')
+      }
+    })
+
+    const Foo = { template: '<div>foo</div>' }
+    const Bar = { template: '<div>bar</div>' }
+    const routes = [
+      { path: '/foo', component: Foo },
+      { path: '/bar', component: Bar }
+    ]
+    const router = new VueRouter({
+      routes // routes: routes の短縮表記
+    })
+    const app8 = new Vue({
+      router
+    }).$mount('#app-8')
+  </script>
+
+  <script src="/app.js"></script>
+</body>
+</html>
